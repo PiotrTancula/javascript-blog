@@ -57,12 +57,6 @@
     targetArticle.classList.add('active');
   };
 
-  const optArticleSelector = '.post',
-    optTitleSelector = '.post-title',
-    optTitleListSelector = '.titles',
-    optArticleTagsSelector = '.post-tags .list',
-    optArticleAuthorSelector = '.post-author';
-
   // eslint-disable-next-line no-inner-declarations
   function generateTitleLinks(customSelector = ''){
 
@@ -121,10 +115,12 @@
     }
   }
 
-  generateTitleLinks();
-
   // eslint-disable-next-line no-inner-declarations
   function generateTags() {
+
+    /* [NEW] create a new variable allTags with an empty array */
+
+    let allTags = [];
 
     /* find all articles */
 
@@ -162,6 +158,12 @@
 
         html = html + linkHTML + ' ';
 
+        /* [NEW] check if this link is NOT already in allTags */
+        if(allTags.indexOf(linkHTML) == -1){
+        /* [NEW] add generated code to allTags array */
+          allTags.push(linkHTML);
+        }
+
       }
 
       /* END LOOP: for each tag */
@@ -174,11 +176,17 @@
 
       /* END LOOP: for every article: */
 
+      /* [NEW] find list of tags in right column */
+
+      const tagList = document.querySelector(optTagsListSelector);
+
+      /* [NEW] add html from allTags to tagList */
+
+      tagList.innerHTML = allTags.join(' ');
+
     }
 
   }
-
-  generateTags();
 
   // eslint-disable-next-line no-inner-declarations
   function tagClickHandler(event) {
@@ -252,7 +260,7 @@
 
     /* find all links to tags */
 
-    const links = '.list-horizontal li a';
+    const links = 'a[href^="#tag-"]';
 
     const allLinksToTags = document.querySelectorAll(links);
 
@@ -272,8 +280,6 @@
 
   }
 
-  addClickListenersToTags();
-
   // eslint-disable-next-line no-inner-declarations
   function generateAuthors(){
 
@@ -285,18 +291,12 @@
 
       const authorTags = article.getAttribute('data-author');
 
-      let html = '';
+      const linkHTML = '<a href="#author-' + authorTags + '">' + authorTags + '</a>';
 
-      const linkHTML = '<a href="#author-' + authorTags + '">' + authorTags  + '</a>';
-
-      html = html + linkHTML;
-
-      articleAuthorSelector.innerHTML = html;
+      articleAuthorSelector.innerHTML = linkHTML;
 
     }
   }
-
-  generateAuthors();
 
   // eslint-disable-next-line no-inner-declarations
   function authorClickHandler(event) {
@@ -317,11 +317,10 @@
 
     }
 
-    clickedElement.classList.add('active');
-
-    console.log(clickedElement);
-
-    const activeAuthor = document.querySelectorAll('a.active[href^="#author-"]');
+    const relatedAuthors = document.querySelectorAll('a[href="' + href + '"]');
+    for(const author of relatedAuthors) {
+      author.classList.add('active');
+    }
 
     const authorInfo = href.replace('#author-', '');
 
@@ -334,7 +333,7 @@
   // eslint-disable-next-line no-inner-declarations
   function addClickListenersToAuthors() {
 
-    const authors = '.post-author a';
+    const authors = 'a[href^="#author-"]';
 
     const authorsList = document.querySelectorAll(authors);
 
@@ -345,6 +344,19 @@
 
   }
 
+  const optArticleSelector = '.post',
+    optTitleSelector = '.post-title',
+    optTitleListSelector = '.titles',
+    optArticleTagsSelector = '.post-tags .list',
+    optArticleAuthorSelector = '.post-author',
+    optTagsListSelector = '.tags.list';
+
+
+
+  generateTitleLinks();
+  generateTags();
+  addClickListenersToTags();
+  generateAuthors();
   addClickListenersToAuthors();
 
 }
