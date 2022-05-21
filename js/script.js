@@ -11,9 +11,6 @@ const templates = {
 }
 
 {
-
-
-
   const titleClickHandler = function (event) {
 
     event.preventDefault();
@@ -72,6 +69,7 @@ const templates = {
     /* remove contents of titleList */
 
     const titleList = document.querySelector(optTitleListSelector);
+
     titleList.innerHTML = '';
 
 
@@ -99,7 +97,8 @@ const templates = {
 
       // const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
 
-      const linkHTMLData = {id: articleId, title: articleTitle};
+      const linkHTMLData = { id: articleId, title: articleTitle };
+
       const linkHTML = templates.articleLink(linkHTMLData);
 
       console.log(linkHTML);
@@ -209,7 +208,8 @@ const templates = {
 
         // const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
 
-        const linkHTMLData = {id: tag, title: tag};
+        const linkHTMLData = { id: tag, title: tag };
+
         const linkHTML = templates.tagLink(linkHTMLData);
 
         /* add generated code to HTML variable */
@@ -240,16 +240,19 @@ const templates = {
       /* END LOOP: for every article: */
 
       const tagsParams = calculateTagsParams(allTags);
+
       console.log('tagsParams:', tagsParams);
 
       /* [NEW] create variable for all links HTML code */
       // let allTagsHTML = '';
+
       const allTagsData = {tags: []};
 
       /* [NEW] START LOOP: for each tag in allTags: */
       for (let tag in allTags) {
 
         const tagLinkHTML = '<li><a href="#tag-' + tag + '" class=' + calculateTagClass(allTags[tag], tagsParams) + '> ' + ' ' + tag + ' ' + ' </a></li>';
+
         console.log('tagLinkHTML:', tagLinkHTML);
 
         /* [NEW] generate code of a link and add it to allTagsHTML */
@@ -379,7 +382,8 @@ const templates = {
 
       // const linkHTML = '<a href="#author-' + authorTags + '">' + authorTags + '</a>';
 
-      const linkHTMLData = {id: authorTags, title: authorTags};
+      const linkHTMLData = { id: authorTags, title: authorTags };
+
       const linkHTML = templates.authorLink(linkHTMLData);
 
       articleAuthorSelector.innerHTML = linkHTML;
@@ -417,6 +421,7 @@ const templates = {
       }
 
       authorlist.innerHTML = allAuthorsHTML;
+
     }
   }
 
